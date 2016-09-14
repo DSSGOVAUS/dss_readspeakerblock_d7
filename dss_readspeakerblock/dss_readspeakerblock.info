@@ -1,0 +1,8 @@
+name = DSS ReadSpeaker Block
+description = Adds a Readspeaker 'Listen' button as a customisable block. Now suports https://
+package = DSS
+version = "7.x-1.1"
+core = 7.x
+configure = admin/config/user-interface/dss_readspeakerblock
+
+dependencies[] = block

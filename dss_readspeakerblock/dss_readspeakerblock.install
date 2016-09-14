@@ -1,0 +1,19 @@
+<?php
+// Install module
+function dss_readspeakerblock_install() {
+	// Plugin defaults
+	$dss_readspeakerblock_settings = array(
+		'customerid' => '5931',
+		'readid' => 'content',
+		'rslang' => 'en_au',
+		'region' => 'as',
+		'rsstyles' => false,
+		'rscompact' => false,
+		'rshttps' => false,
+	);
+	variable_set('dss_readspeakerblock_settings', $dss_readspeakerblock_settings);
+}
+// Uninstall module
+function dss_readspeakerblock_uninstall() {
+	variable_del('dss_readspeakerblock_settings');
+}
