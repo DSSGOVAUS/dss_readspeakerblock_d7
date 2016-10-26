@@ -1,6 +1,6 @@
 <?php
 /**
-* Implement hook_menu().
+* Implements hook_menu().
 */
 function dss_readspeakerblock_menu() {
 	$items = array();
@@ -11,7 +11,7 @@ function dss_readspeakerblock_menu() {
 		'page arguments' => array('dss_readspeakerblock_form'),
 		'access arguments' => array('administer users'),
 		'type' => MENU_NORMAL_ITEM,
-	);  
+	);
 	return $items;
 }
 
@@ -19,72 +19,60 @@ function dss_readspeakerblock_menu() {
 * Form builder
 */
 function dss_readspeakerblock_form($form, &$form_state) {
-	$dss_readspeakerblock_settings = variable_get('dss_readspeakerblock_settings');	
+	$dss_readspeakerblock_settings = variable_get('dss_readspeakerblock_settings');
 	$form['general'] = array(
 		'#type' => 'fieldset',
 		'#title' => t('General Options'),
 		'#tree' => TRUE,
-	);	
+	);
 	$form['general']['customerid'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Customer ID'),		
+		'#title' => t('Customer ID'),
 		'#default_value' => t($dss_readspeakerblock_settings['customerid']),
 		'#description' => t("Your ReadSpeaker Cutomer ID"),
 		'#size' => 4,
-		'#maxlength' => 4,		
+		'#maxlength' => 4,
 	);
 	$form['general']['readid'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Read ID'),		
+		'#title' => t('Read ID'),
 		'#default_value' => t($dss_readspeakerblock_settings['readid']),
 		'#description' => t("The ID of the page element to be read"),
 		'#size' => 32,
-		'#maxlength' => 32,	
+		'#maxlength' => 32,
 	);
 	$form['general']['rslang'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Language'),		
+		'#title' => t('Language'),
 		'#default_value' => t($dss_readspeakerblock_settings['rslang']),
 		'#description' => t("Document language"),
 		'#size' => 5,
-		'#maxlength' => 5,	
-	);	
+		'#maxlength' => 5,
+	);
 	$form['general']['region'] = array(
 		'#type' => 'textfield',
-		'#title' => t('Region'),		
+		'#title' => t('Region'),
 		'#default_value' => t($dss_readspeakerblock_settings['region']),
 		'#description' => t("ReadSpeaker Region"),
 		'#size' => 2,
-		'#maxlength' => 2,	
-	);	
+		'#maxlength' => 2,
+	);
 	$form['style'] = array(
 		'#type' => 'fieldset',
 		'#title' => t('Other Options'),
 		'#tree' => TRUE,
-	);	
+	);
 	$form['style']['rsstyles'] = array(
 		'#type' => 'checkbox',
-		'#title' => t('Use custom styles'),		
+		'#title' => t('Use custom styles'),
 		'#default_value' => t($dss_readspeakerblock_settings['rsstyles']),
 		'#description' => t("Uncheck to use ReadSpeaker's default styles"),
 	);
-	$form['style']['rscompact'] = array(
-		'#type' => 'checkbox',
-		'#title' => t('Use compact player'),		
-		'#default_value' => t($dss_readspeakerblock_settings['rscompact']),
-		'#description' => t("Reduced width, if space is at a premium"),
-	); 
-	$form['style']['rshttps'] = array(
-		'#type' => 'checkbox',
-		'#title' => t('Use https://'),		
-		'#default_value' => t($dss_readspeakerblock_settings['rshttps']),
-		'#description' => t("Connects to Readspeaker's CDN with the https protocol"),
-	); 
 	// Submit button
 	$form['submit'] = array(
 		'#type' => 'submit',
 		'#value' => t('Save settings')
-		);  
+		);
 	return $form;
 }
 
@@ -92,17 +80,15 @@ function dss_readspeakerblock_form($form, &$form_state) {
 * Save configuration settings
 */
 function dss_readspeakerblock_form_submit($form, &$form_state) {
-	// Check and Set Variables	
+	// Check and Set Variables
 	$dss_readspeakerblock_settings = array(
 		'customerid' => $form_state['values']['general']['customerid'],
 		'readid' => $form_state['values']['general']['readid'],
 		'rslang' => $form_state['values']['general']['rslang'],
 		'region' => $form_state['values']['general']['region'],
 		'rsstyles' => $form_state['values']['style']['rsstyles'],
-		'rscompact' => $form_state['values']['style']['rscompact'],
-		'rshttps' => $form_state['values']['style']['rshttps'],
-	);	
-	variable_set('dss_readspeakerblock_settings',$dss_readspeakerblock_settings);  
+	);
+	variable_set('dss_readspeakerblock_settings',$dss_readspeakerblock_settings);
 	//Settings saved
 	drupal_set_message(t('The settings have been saved'));
 }
@@ -110,53 +96,12 @@ function dss_readspeakerblock_form_submit($form, &$form_state) {
 /**
  * Implements hook_block_info().
  */
-// TODO: loading the JS and CSS may be better done with a hook_preprocess_page, so that we can properly use block caching
 function dss_readspeakerblock_block_info() {
 	$blocks['dss_readspeakerblock'] = array(
-		'info' => t('DSS ReadSpeaker Block (Module)'), 
-		'cache' => DRUPAL_NO_CACHE,
-	);  
+		'info' => t('DSS ReadSpeaker Block (Module)'),
+		'cache' => DRUPAL_CACHE_GLOBAL,
+	);
 	return $blocks;
-}
-
-/**
- * Implements hook_block_view().
- */
-function dss_readspeakerblock_block_view($delta = '') { 
-	$dss_readspeakerblock_settings = variable_get('dss_readspeakerblock_settings');	
-	$customerid = $dss_readspeakerblock_settings['customerid'];
-	$readid = $dss_readspeakerblock_settings['readid'];
-	$rslang = $dss_readspeakerblock_settings['rslang'];	
-	$region = $dss_readspeakerblock_settings['region'].'.';	
-	if ($dss_readspeakerblock_settings['rscompact']) $srcparams = 'pids=embhl&amp;skin=ReadSpeakerCompactSkin';	else $srcparams = 'pids=embhl';		
-	if ($dss_readspeakerblock_settings['rshttps']) {
-		// Locally host the script for https
-		$proto = 'https';
-		drupal_add_js(url(drupal_get_path('module', 'dss_readspeakerblock') . '/ReadSpeaker.js', array('query' => array('pids' => 'embhl'))),array('group' => JS_DEFAULT, 'type' => 'file', 'scope'=>'footer', 'preprocess' => FALSE));
-		// region-code is removed for https requests
-		$region = '';		
-	}	
-	else {
-		$proto = 'http';
-		drupal_add_js($proto.'://f1.'.$region.'readspeaker.com/script/'.$customerid.'/ReadSpeaker.js?'.$srcparams,array('group' => JS_DEFAULT, 'type' => 'file', 'scope'=>'footer', 'preprocess' => FALSE));
-	}
-	// Custom styles
-	if ($dss_readspeakerblock_settings['rsstyles']) {
-		drupal_add_css(drupal_get_path('module', 'dss_readspeakerblock') . '/dss_readspeaker.css', array('group' => CSS_THEME, 'type' => 'file', 'preprocess' => TRUE));
-		drupal_add_js(drupal_get_path('module', 'dss_readspeakerblock') . '/dss_readspeaker.js', array('group' => JS_DEFAULT, 'type' => 'file', 'scope'=>'footer', 'preprocess' => TRUE));
-		$formatted = '<div id="readspeaker_button" class="rs_skip rsbtn_colorskin rs_preserve">';
-		$formatted .= '<a class="rsbtn_play" href="'.$proto.'://app.'.$region.'readspeaker.com/cgi-bin/rsent?customerid='.$customerid.'&amp;lang='.$rslang.'&amp;readid='.$readid.'&amp;url='.$proto.'://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].'">';
-		$formatted .= '<span class="rsbtn_left rspart rsimg"><span class="rsbtn_text"><span>Listen</span></span></span><span class="rsgrad"><span class="rsbtn_right rsplay rspart"></span></span></a></div>';
-	}
-	// Else, Default Readspeaker code
-	else {
-		$formatted = '<div id="readspeaker_button" class="rs_skip rsbtn rs_preserve">';
-		$formatted .= '<a class="rsbtn_play" href="'.$proto.'://app.'.$region.'readspeaker.com/cgi-bin/rsent?customerid='.$customerid.'&amp;lang='.$rslang.'&amp;readid='.$readid.'&amp;url='.$proto.'://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].'">';
-		$formatted .= '<span class="rsbtn_left rspart rsimg"><span class="rsbtn_text"><span>Listen</span></span></span><span class="rsbtn_right rsimg rsplay rspart"></span></a></div>';
-	}
- 	$block['subject'] = t('');	
-	$block['content'] = $formatted;
-	return $block;
 }
 
 /**
@@ -167,6 +112,36 @@ function dss_readspeakerblock_block_configure($delta) {
 	$form['textfield'] = array(
 		'#type' => 'markup',
 		'#markup' => '<p><a href="/admin/config/user-interface/dss_readspeakerblock">Configuration</a></p><br />',
-	);  
+	);
 	return $form;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function dss_readspeakerblock_block_view() {
+	$dss_readspeakerblock_settings = variable_get('dss_readspeakerblock_settings');
+	$customerid = $dss_readspeakerblock_settings['customerid'];
+	$readid = $dss_readspeakerblock_settings['readid'];
+	$rslang = $dss_readspeakerblock_settings['rslang'];
+	$region = $dss_readspeakerblock_settings['region'];
+	// Attach ReadSpeaker's script from CDN
+	drupal_add_js('//f1-'.$region.'.readspeaker.com/script/'.$customerid.'/ReadSpeaker.js?pids=embhl',array('group' => JS_DEFAULT, 'type' => 'file', 'scope'=>'footer', 'preprocess' => FALSE));
+	// If custom styles:
+	if ($dss_readspeakerblock_settings['rsstyles']) {
+		drupal_add_css(drupal_get_path('module', 'dss_readspeakerblock') . '/ReadSpeakerColorSkin.css', array('group' => CSS_THEME, 'type' => 'file', 'preprocess' => TRUE));
+		drupal_add_js(drupal_get_path('module', 'dss_readspeakerblock') . '/ReadSpeakerColorSkin.js', array('group' => JS_DEFAULT, 'type' => 'file', 'scope'=>'footer', 'preprocess' => TRUE));
+		$formatted = '<div id="readspeaker_button" class="rs_skip rsbtn_colorskin rs_preserve">';
+		$formatted .= '<a rel="nofollow" class="rsbtn_play" href="//app-'.$region.'.readspeaker.com/cgi-bin/rsent?customerid='.$customerid.'&amp;lang='.$rslang.'&amp;readid='.$readid.'&amp;url=//'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].'">';
+		$formatted .= '<span class="rsbtn_left rspart rsimg"><span class="rsbtn_text"><span>Listen</span></span></span><span class="rsgrad"><span class="rsbtn_right rsplay rspart"></span></span></a></div>';
+	}
+	// Else, Default Readspeaker code
+	else {
+		$formatted = '<div id="readspeaker_button" class="rs_skip rsbtn rs_preserve">';
+		$formatted .= '<a rel="nofollow" class="rsbtn_play" href="://app-'.$region.'.readspeaker.com/cgi-bin/rsent?customerid='.$customerid.'&amp;lang='.$rslang.'&amp;readid='.$readid.'&amp;url=//'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].'">';
+		$formatted .= '<span class="rsbtn_left rspart rsimg"><span class="rsbtn_text"><span>Listen</span></span></span><span class="rsbtn_right rsimg rsplay rspart"></span></a></div>';
+	}
+ 	$block['subject'] = t('');
+	$block['content'] = $formatted;
+	return $block;
 }
