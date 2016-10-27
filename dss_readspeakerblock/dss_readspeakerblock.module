@@ -138,7 +138,7 @@ function dss_readspeakerblock_block_view() {
 	// Else, Default Readspeaker code
 	else {
 		$formatted = '<div id="readspeaker_button" class="rs_skip rsbtn rs_preserve">';
-		$formatted .= '<a rel="nofollow" class="rsbtn_play" href="://app-'.$region.'.readspeaker.com/cgi-bin/rsent?customerid='.$customerid.'&amp;lang='.$rslang.'&amp;readid='.$readid.'&amp;url=//'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].'">';
+		$formatted .= '<a rel="nofollow" class="rsbtn_play" href="//app-'.$region.'.readspeaker.com/cgi-bin/rsent?customerid='.$customerid.'&amp;lang='.$rslang.'&amp;readid='.$readid.'&amp;url=//'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].'">';
 		$formatted .= '<span class="rsbtn_left rspart rsimg"><span class="rsbtn_text"><span>Listen</span></span></span><span class="rsbtn_right rsimg rsplay rspart"></span></a></div>';
 	}
  	$block['subject'] = t('');
