@@ -126,7 +126,9 @@ function dss_readspeakerblock_block_view() {
 	$rslang = $dss_readspeakerblock_settings['rslang'];
 	$region = $dss_readspeakerblock_settings['region'];
 	$proto = 'http';
-	if ($_SERVER['HTTPS'] != '') $proto = 'https';
+	if (isset($_SERVER['HTTPS'])) {
+		if ($_SERVER['HTTPS'] != '') $proto = 'https';
+	}
 	// Attach ReadSpeaker's script from CDN
 	drupal_add_js($proto.'://f1-'.$region.'.readspeaker.com/script/'.$customerid.'/ReadSpeaker.js?pids=embhl',array('group' => JS_DEFAULT, 'type' => 'file', 'scope'=>'footer', 'preprocess' => FALSE));
 	// If custom styles:
