@@ -136,13 +136,13 @@ function dss_readspeakerblock_block_view() {
 		drupal_add_css(drupal_get_path('module', 'dss_readspeakerblock') . '/ReadSpeakerColorSkin.css', array('group' => CSS_THEME, 'type' => 'file', 'preprocess' => TRUE));
 		drupal_add_js(drupal_get_path('module', 'dss_readspeakerblock') . '/ReadSpeakerColorSkin.js', array('group' => JS_DEFAULT, 'type' => 'file', 'scope'=>'footer', 'preprocess' => TRUE));
 		$formatted = '<div id="readspeaker_button" class="rs_skip rsbtn_colorskin rs_preserve">';
-		$formatted .= '<a rel="nofollow" class="rsbtn_play" href="'.$proto.'://app-'.$region.'.readspeaker.com/cgi-bin/rsent?customerid='.$customerid.'&amp;lang='.$rslang.'&amp;readid='.$readid.'&amp;url=//'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].'">';
+		$formatted .= '<a rel="nofollow" class="rsbtn_play" href="'.$proto.'://app-'.$region.'.readspeaker.com/cgi-bin/rsent?customerid='.$customerid.'&amp;lang='.$rslang.'&amp;readid='.$readid.'&amp;url='.$proto.'://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].'">';
 		$formatted .= '<span class="rsbtn_left rspart rsimg"><span class="rsbtn_text"><span>Listen</span></span></span><span class="rsgrad"><span class="rsbtn_right rsplay rspart"></span></span></a></div>';
 	}
 	// Else, Default Readspeaker code
 	else {
 		$formatted = '<div id="readspeaker_button" class="rs_skip rsbtn rs_preserve">';
-		$formatted .= '<a rel="nofollow" class="rsbtn_play" href="'.$proto.'://app-'.$region.'.readspeaker.com/cgi-bin/rsent?customerid='.$customerid.'&amp;lang='.$rslang.'&amp;readid='.$readid.'&amp;url=//'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].'">';
+		$formatted .= '<a rel="nofollow" class="rsbtn_play" href="'.$proto.'://app-'.$region.'.readspeaker.com/cgi-bin/rsent?customerid='.$customerid.'&amp;lang='.$rslang.'&amp;readid='.$readid.'&amp;url='.$proto.'://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].'">';
 		$formatted .= '<span class="rsbtn_left rspart rsimg"><span class="rsbtn_text"><span>Listen</span></span></span><span class="rsbtn_right rsimg rsplay rspart"></span></a></div>';
 	}
  	$block['subject'] = t('');
