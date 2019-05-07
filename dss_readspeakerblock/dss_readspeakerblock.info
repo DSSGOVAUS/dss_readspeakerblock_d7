@@ -1,7 +1,7 @@
 name = DSS ReadSpeaker Block
 description = Adds a ReadSpeaker 'Listen' button as a customisable block.
 package = DSS
-version = "7.x-2.0"
+version = "7.x-3.0"
 core = 7.x
 configure = admin/config/user-interface/dss_readspeakerblock
 

@@ -5,9 +5,6 @@ function dss_readspeakerblock_install() {
 	$dss_readspeakerblock_settings = array(
 		'customerid' => '5931',
 		'readid' => 'content',
-		'rslang' => 'en_au',
-		'region' => 'oc',
-		'rsstyles' => false,
 	);
 	variable_set('dss_readspeakerblock_settings', $dss_readspeakerblock_settings);
 }
