@@ -101,6 +101,8 @@ function dss_readspeakerblock_block_view() {
 	drupal_add_js($proto.'://cdn1.readspeaker.com/script/'.$customerid.'/webReader/webReader.js?pids=wr&notools=1',array('group' => JS_DEFAULT, 'type' => 'file', 'scope'=>'footer', 'preprocess' => FALSE));
 	// Set rsConf Options
 	drupal_add_js('window.rsConf = { ui: { tools: {translation: false, dictionary: false}}};', array('type' => 'inline','scope' => 'header'));
+  //TODO {settings: {hlicon: 'iconoff'}};
+	// OR &disable=popupplayback
 	// Prepare the code
 	$formatted = '<div id="readspeaker_button" class="rs_skip rsbtn rs_preserve">';
 	$formatted .= '<a rel="nofollow" class="rsbtn_play" href="//app-oc.readspeaker.com/cgi-bin/rsent?customerid='.$customerid.'&amp;lang=en_au&amp;readid='.$readid.'&amp;url='.$proto.'://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].'">';
