@@ -5,6 +5,7 @@ function dss_readspeakerblock_install() {
 	$dss_readspeakerblock_settings = array(
 		'customerid' => '5931',
 		'readid' => 'content',
+		'popupplayer' => true,
 	);
 	variable_set('dss_readspeakerblock_settings', $dss_readspeakerblock_settings);
 }
