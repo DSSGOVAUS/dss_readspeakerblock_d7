@@ -114,8 +114,9 @@ function dss_readspeakerblock_block_view() {
 	// Set rsConf Options, notools=1 should disable a lot of this stuff anyway. But I'll leave it here if we ever want to make future changes
 	drupal_add_js('window.rsConf = { ui: { tools: {translation: false, dictionary: false}}};', array('type' => 'inline','scope' => 'header'));
 	// Prepare the code
+	$readurl = htmlspecialchars(strip_tags($proto . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
 	$formatted = '<div id="readspeaker_button" class="rs_skip rsbtn rs_preserve">';
-	$formatted .= '<a rel="nofollow" class="rsbtn_play" href="//app-oc.readspeaker.com/cgi-bin/rsent?customerid='.$customerid.'&amp;lang=en_au&amp;readid='.$readid.'&amp;url='.$proto.'://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].'">';
+	$formatted .= '<a rel="nofollow" class="rsbtn_play" href="//app-oc.readspeaker.com/cgi-bin/rsent?customerid='.$customerid.'&amp;lang=en_au&amp;readid='.$readid.'&amp;url='.$readurl.'">';
 	$formatted .= '<span class="rsbtn_left rspart rsimg"><span class="rsbtn_text"><span>Listen</span></span></span><span class="rsbtn_right rsimg rsplay rspart"></span></a></div>';
  	$block['subject'] = '';
 	$block['content'] = $formatted;
